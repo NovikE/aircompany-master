@@ -1,3 +1,4 @@
+import org.testng.annotations.BeforeTest;
 import planes.ExperimentalPlane;
 import models.ClassificationLevel;
 import models.ExperimentalTypes;
@@ -32,63 +33,40 @@ public class AirportTest {
     );
 
     private static PassengerPlane planeWithMaxPassengerCapacity = new PassengerPlane(new Plane("Boeing-747", 980, 16100, 70500), 242);
+    private Airport airport;
+
+    @BeforeTest
+    private void createAirport() {
+        airport = new Airport(planes);
+    }
 
     @Test
     public void testGetTransportMilitaryPlanes() {
-        Airport airport = new Airport(planes);
-        Assert.assertTrue(isTransportMilitaryPlane(airport));
+        Assert.assertTrue(airport.getTransportMilitaryPlanes().stream().anyMatch(p -> p.getType().equals(MilitaryType.TRANSPORT)));
     }
 
     @Test
     public void testGetPassengerPlaneWithMaxCapacity() {
-        Airport airport = new Airport(planes);
         PassengerPlane expectedPlaneWithMaxPassengersCapacity = airport.getPassengerPlaneWithMaxPassengersCapacity();
-        Assert.assertTrue(expectedPlaneWithMaxPassengersCapacity.getPassengersCapacity() == planeWithMaxPassengerCapacity.getPassengersCapacity());
+        Assert.assertEquals(expectedPlaneWithMaxPassengersCapacity.getPassengersCapacity(), planeWithMaxPassengerCapacity.getPassengersCapacity());
     }
 
     @Test
     public void testSortByMaxLoadCapacity() {
-        Airport airport = new Airport(planes);
         Assert.assertTrue(isNextPlaneMaxLoadCapacityIsHigherThanCurrent(airport));
     }
 
     @Test
     public void testHasAtLeastOneBomberInMilitaryPlanes() {
-        Airport airport = new Airport(planes);
-        Assert.assertTrue(isBomberMilitaryPlane(airport));
+       Assert.assertTrue(airport.getBomberMilitaryPlanes().stream().anyMatch(p -> p.getType().equals(MilitaryType.BOMBER)));
     }
 
     @Test
     public void testExperimentalPlanesHasClassificationLevelHigherThanUnclassified(){
-        Airport airport = new Airport(planes);
-        Assert.assertFalse(hasUnclassifiedPlanes(airport));
+        Assert.assertFalse(airport.getExperimentalPlanes().stream().anyMatch(p -> p.getClassificationLevel().equals(ClassificationLevel.UNCLASSIFIED)));
     }
 
-    private boolean isTransportMilitaryPlane(Airport airport){
-        List<MilitaryPlane> transportMilitaryPlanes = airport.getTransportMilitaryPlanes();
-        boolean transportMilitaryPlane = false;
-        for (MilitaryPlane militaryPlane : transportMilitaryPlanes) {
-            if ((militaryPlane.getType() == MilitaryType.TRANSPORT)) {
-                transportMilitaryPlane = true;
-                break;
-            }
-        }
-        return transportMilitaryPlane;
-    }
-
-    private boolean isBomberMilitaryPlane(Airport airport){
-        List<MilitaryPlane> bomberMilitaryPlanes = airport.getBomberMilitaryPlanes();
-        boolean bomberMilitaryPlane = false;
-        for (MilitaryPlane militaryPlane : bomberMilitaryPlanes) {
-            if ((militaryPlane.getType() == MilitaryType.BOMBER)) {
-                bomberMilitaryPlane = true;
-                break;
-            }
-        }
-        return bomberMilitaryPlane;
-    }
-
-    private boolean isNextPlaneMaxLoadCapacityIsHigherThanCurrent(Airport airport){
+     private boolean isNextPlaneMaxLoadCapacityIsHigherThanCurrent(Airport airport){
         airport.sortByMaxLoadCapacity();
         List<? extends Plane> planesSortedByMaxLoadCapacity = airport.getPlanes();
         boolean nextPlaneMaxLoadCapacityIsHigherThanCurrent = true;
@@ -103,15 +81,4 @@ public class AirportTest {
         return nextPlaneMaxLoadCapacityIsHigherThanCurrent;
     }
 
-    private boolean hasUnclassifiedPlanes(Airport airport){
-        List<ExperimentalPlane> experimentalPlanes = airport.getExperimentalPlanes();
-        boolean unclassifiedPlanes = false;
-        for(ExperimentalPlane experimentalPlane : experimentalPlanes){
-            if(experimentalPlane.getClassificationLevel() == ClassificationLevel.UNCLASSIFIED){
-                unclassifiedPlanes = true;
-                break;
-            }
-        }
-        return unclassifiedPlanes;
-    }
 }
