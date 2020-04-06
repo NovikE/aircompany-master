@@ -7,13 +7,15 @@ public class PassengerPlane extends Plane{
     private int passengersCapacity;
 
     public PassengerPlane(Plane plane, int passengersCapacity) {
-        super(plane);
+        super();
+        setModel(plane.getModel());
+        setMaxSpeed(plane.getMaxSpeed());
+        setMaxFlightDistance(plane.getMaxFlightDistance());
+        setMaxLoadCapacity(plane.getMaxLoadCapacity());
         this.passengersCapacity = passengersCapacity;
     }
 
-    public int getPassengersCapacity() {
-        return passengersCapacity;
-    }
+    public int getPassengersCapacity() { return passengersCapacity; }
 
     @Override
     public String toString() {

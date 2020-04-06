@@ -9,7 +9,11 @@ public class ExperimentalPlane extends Plane{
     private ClassificationLevel classificationLevel;
 
     public ExperimentalPlane(Plane plane, ExperimentalTypes type, ClassificationLevel classificationLevel) {
-        super(mplane);
+        super();
+        setModel(plane.getModel());
+        setMaxSpeed(plane.getMaxSpeed());
+        setMaxFlightDistance(plane.getMaxFlightDistance());
+        setMaxLoadCapacity(plane.getMaxLoadCapacity());
         this.type = type;
         this.classificationLevel = classificationLevel;
     }
@@ -35,7 +39,7 @@ public class ExperimentalPlane extends Plane{
     @Override
     public String toString() {
         return "experimentalPlane{" +
-                "model='" + model + '\'' +
+                "model='" + super.getModel() + '\'' +
                 '}';
     }
 }

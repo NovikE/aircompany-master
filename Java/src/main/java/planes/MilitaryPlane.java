@@ -9,7 +9,11 @@ public class MilitaryPlane extends Plane{
     private MilitaryType type;
 
     public MilitaryPlane(Plane plane, MilitaryType type) {
-        super(plane);
+        super();
+        setModel(plane.getModel());
+        setMaxSpeed(plane.getMaxSpeed());
+        setMaxFlightDistance(plane.getMaxFlightDistance());
+        setMaxLoadCapacity(plane.getMaxLoadCapacity());
         this.type = type;
     }
 
