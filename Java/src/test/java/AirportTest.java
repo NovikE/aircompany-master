@@ -43,7 +43,7 @@ public class AirportTest {
     public void testGetPassengerPlaneWithMaxCapacity() {
         Airport airport = new Airport(planes);
         PassengerPlane expectedPlaneWithMaxPassengersCapacity = airport.getPassengerPlaneWithMaxPassengersCapacity();
-        Assert.assertTrue(expectedPlaneWithMaxPassengersCapacity.equals(planeWithMaxPassengerCapacity));
+        Assert.assertTrue(expectedPlaneWithMaxPassengersCapacity.getPassengersCapacity() == planeWithMaxPassengerCapacity.getPassengersCapacity());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class AirportTest {
         List<MilitaryPlane> bomberMilitaryPlanes = airport.getBomberMilitaryPlanes();
         boolean bomberMilitaryPlane = false;
         for (MilitaryPlane militaryPlane : bomberMilitaryPlanes) {
-            if ((militaryPlane.getType() == MilitaryType.TRANSPORT)) {
+            if ((militaryPlane.getType() == MilitaryType.BOMBER)) {
                 bomberMilitaryPlane = true;
                 break;
             }
